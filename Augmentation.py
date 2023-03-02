@@ -6,9 +6,9 @@ import numpy as np
 def augment_image(image_path, output_folder):
     image = cv2.imread(image_path)
 
-    # Flipping Images
-    flip_horizontally = cv2.flip(image, 1)  # 1 for horizontal flip
-    # flip_vertically = cv2.flip(image, 0)  # 0 for vertical flip
+    # # Flipping Images
+    # flip_horizontally = cv2.flip(image, 1)  # 1 for horizontal flip
+    # # flip_vertically = cv2.flip(image, 0)  # 0 for vertical flip
 
     # Rotating Images
     height, width = image.shape[:2]
@@ -21,6 +21,11 @@ def augment_image(image_path, output_folder):
     beta = 50  # Brightness control (0-100)
     adjusted_image = cv2.addWeighted(
         image, alpha, np.zeros(image.shape, image.dtype), 0, beta)
+
+    # Reduce image size
+    quality = 5
+    image = cv2.imread(image_path)
+    # reduce_image_size = image, cv2.IMWRITE_JPEG_QUALITY, quality
 
     # Adding Gaussian Noise
     mean = 0
@@ -56,8 +61,8 @@ def augment_image(image_path, output_folder):
 
     # Save augmented images to output folder
     filename = os.path.splitext(os.path.basename(image_path))[0]
-    cv2.imwrite(os.path.join(output_folder, filename +
-                '_flip_horizontally.jpg'), flip_horizontally)
+    # cv2.imwrite(os.path.join(output_folder, filename +
+    #             '_flip_horizontally.jpg'), flip_horizontally)
     # cv2.imwrite(os.path.join(output_folder, filename +
     #             '_flip_vertically.jpg'), flip_vertically)
     cv2.imwrite(os.path.join(output_folder, filename +
@@ -74,6 +79,8 @@ def augment_image(image_path, output_folder):
                 '_poisson_noise.jpg'), poisson_noise)
     cv2.imwrite(os.path.join(output_folder, filename +
                 '_blurred_image.jpg'), blurred_image)
+    cv2.imwrite(os.path.join(output_folder, filename +
+                '_reduce_image_size'), reduce_image_size)
 
 
 input_folder = 'input_images'
